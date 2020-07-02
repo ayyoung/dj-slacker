@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_heroku import Heroku
 from flask_cors import CORS
 from spotibot_client import Spotibot, SpotifyAuthTokenError
@@ -7,7 +7,7 @@ from flask_marshmallow import Marshmallow
 import os
 import random
 import json
-
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -79,7 +79,8 @@ def handle_event(event):
     elif "shuffle" in event_text:
         return __spibot__.send_currently_playing_list(channel, get_tunes())
     else:
-        return requests.make_response("invalid event", 500)
+        return make_response("Unrecognized code", 500)
+
 
 def get_random_fake_song():
     fileKey = random.randint(0,3)
